@@ -42,7 +42,7 @@ const LoginForm = ({ onLogin }) => {
         <Typography variant="h6" gutterBottom>
           Še niste registrirani?
         </Typography>
-        <Button>
+        <Button type="submit" variant="outlined" color="primary" >
           Registracija
         </Button>
       </Box>
@@ -51,7 +51,7 @@ const LoginForm = ({ onLogin }) => {
       <Box
         sx={{
           width: "67%",
-          backgroundColor: "#333",
+          backgroundColor: "gray",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -63,6 +63,7 @@ const LoginForm = ({ onLogin }) => {
             width: "100%",
             maxWidth: "400px",
             backgroundColor: "white",
+            borderRadius:"17px"
           }}
           elevation={3}
         >

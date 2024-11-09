@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {Container, Grid, Typography, FormControl, InputLabel, Select, MenuItem, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Alert, TextField, Button, IconButton} from '@mui/material';
+import { Container, Grid, Typography, FormControl, InputLabel, Select, MenuItem, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Alert, TextField, Button, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import EmployeePieChart from './EmployeePieChart';
-import EmployeeDetailsDialog from './EmployeeDetailsDialog'; 
+import EmployeeDetailsDialog from './EmployeeDetailsDialog';
+import { usePDF } from 'react-to-pdf';
+import DownloadIcon from '@mui/icons-material/Download';
 
 const Overview = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
@@ -14,6 +16,8 @@ const Overview = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  const { toPDF, targetRef } = usePDF({ filename: 'employee_hours.pdf' });
 
   useEffect(() => {
     if (selectedMonth) {
@@ -56,13 +60,15 @@ const Overview = () => {
   };
 
   return (
-    <Container maxWidth="lg" style={{ marginTop: '30px' , paddingBottom:'20px'}}>
-      <Typography variant="h4" style={{ marginBottom: '30px'}}> Pregled oddelanih ur </Typography>
+    <Container maxWidth="lg" style={{ marginTop: '30px', paddingBottom: '20px' }}>
+      <Typography variant="h4" style={{ marginBottom: '30px' }}>
+        Pregled oddelanih ur
+      </Typography>
 
       <Grid container spacing={3}>
         <Grid item xs={7}>
           <Grid container spacing={3}>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <FormControl fullWidth style={{ marginBottom: '20px' }}>
                 <InputLabel id="month-label">Mesec</InputLabel>
                 <Select
@@ -81,7 +87,7 @@ const Overview = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <TextField
                 variant="outlined"
                 fullWidth
@@ -97,6 +103,11 @@ const Overview = () => {
                 }}
               />
             </Grid>
+            <Grid item xs={2} >
+            <Button variant="contained" color="primary" onClick={toPDF} style={{height: '55px'}}>
+                <DownloadIcon />
+            </Button>
+            </Grid>
           </Grid>
 
           {loading && (
@@ -111,7 +122,7 @@ const Overview = () => {
             Pregled ur za mesec {selectedMonth && new Date(0, selectedMonth - 1).toLocaleString('default', { month: 'long' })}:
           </Typography>
 
-          <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+          <TableContainer component={Paper} style={{ marginTop: '20px' }} ref={targetRef}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -152,14 +163,16 @@ const Overview = () => {
         </Grid>
 
         <Grid item xs={5}>
-          <EmployeePieChart data={filteredEmployeeHours}  />
+          <EmployeePieChart data={filteredEmployeeHours} />
         </Grid>
       </Grid>
 
-      <EmployeeDetailsDialog 
-        open={openModal} 
-        onClose={handleCloseModal} 
-        employee={selectedEmployee} 
+     
+
+      <EmployeeDetailsDialog
+        open={openModal}
+        onClose={handleCloseModal}
+        employee={selectedEmployee}
       />
     </Container>
   );
