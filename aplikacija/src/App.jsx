@@ -5,6 +5,7 @@ import EmployeeEntryForm from "./components/EmployeeEntryForm";
 import EditEntryForm from "./components/EditEntryForm";
 import LoginForm from "./components/LoginForm";
 import EmployeeHoursTable from "./components/EmployeeHoursTable";
+import Overview from "./components/Overview";
 
 const App = () => {
   const [currentView, setCurrentView] = useState("login");
@@ -31,12 +32,15 @@ const App = () => {
 
   return (
     <Router>
-      <div style={{ padding: "20px" }}>
-        <Header onNavigate={handleNavigate} />
+      <div >
+        {currentView !== "login" && <Header onNavigate={handleNavigate} />}
         {currentView === "login" && <LoginForm onLogin={handleLogin} />}
         {currentView === "vnesiUre" && <EmployeeEntryForm />}
         {currentView === "mojaEvidenca" && (
           <EmployeeHoursTable employeeId={employeeId} onEdit={handleEdit} />
+        )}
+        {currentView === "pregled" && (
+          <Overview employeeId={employeeId} onEdit={handleEdit} />
         )}
         {currentView === "editEntry" && selectedEntry && (
           <EditEntryForm entryId={selectedEntry.id} />
