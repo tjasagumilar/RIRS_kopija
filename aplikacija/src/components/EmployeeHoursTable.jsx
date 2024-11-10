@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Typography, Grid, Button } from "@mui/material";
 import axios from "axios";
+import DownloadIcon from '@mui/icons-material/Download';
+import EditIcon from '@mui/icons-material/Edit';
+import { format } from 'date-fns';
+import { usePDF } from 'react-to-pdf';
 
 const EmployeeHoursTable = ({ employeeId, onEdit }) => {
   const [entries, setEntries] = useState([]);
@@ -20,31 +24,47 @@ const EmployeeHoursTable = ({ employeeId, onEdit }) => {
     }
   }, [employeeId]);
 
+  const { toPDF, targetRef } = usePDF({ filename: 'employee_hours.pdf' });
+
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Hours Worked</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Edit</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {entries.map((entry) => (
-            <TableRow key={entry.id}>
-              <TableCell>{entry.date}</TableCell>
-              <TableCell>{entry.hours_worked}</TableCell>
-              <TableCell>{entry.description}</TableCell>
-              <TableCell>
-                <button onClick={() => onEdit(entry)}>Posodobi</button> {/* Change 'Edit' to 'Posodobi' */}
-              </TableCell>
+    <Container maxWidth="lg" style={{ marginTop: '30px', paddingBottom: '20px' }}>
+      <Typography variant="h4" style={{ marginBottom: '30px' }}>
+        Moja evidenca ur
+      </Typography>
+
+      <Grid container spacing={3}>
+        <Grid item xs={2} >
+          <Button variant="contained" color="primary" onClick={toPDF} style={{ height: '55px' }}>
+            <DownloadIcon/>
+          </Button>
+        </Grid>
+      </Grid>
+
+      <TableContainer component={Paper} style={{ marginTop: '20px' }} ref={targetRef}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell><strong>Datum</strong></TableCell>
+              <TableCell><strong>Oddelane ure</strong></TableCell>
+              <TableCell><strong>Opombe</strong></TableCell>
+              <TableCell><strong>Uredi</strong></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {entries.map((entry) => (
+              <TableRow key={entry.id}>
+                <TableCell>{format(new Date(entry.date), 'dd-MM-yyyy')}</TableCell>
+                <TableCell>{entry.hours_worked}</TableCell>
+                <TableCell>{entry.description}</TableCell>
+                <TableCell>
+                  <EditIcon onClick={() => onEdit(entry)} style={{ cursor: 'pointer' }} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 

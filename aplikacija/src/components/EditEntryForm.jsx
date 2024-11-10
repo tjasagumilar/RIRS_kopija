@@ -42,55 +42,59 @@ const EditEntryForm = ({ entryId }) => {
             alert("Error updating entry");
         }
     };
-    
+
 
     return (
-        <Box>
-            <Typography variant="h5">Edit Work Entry</Typography>
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Hours Worked"
-                    name="hoursWorked"
-                    value={formData.hoursWorked}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    type="number"
-                />
-                <TextField
-                    label="Date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    type="date"
-                    InputLabelProps={{ shrink: true }}
-                />
-                <TextField
-                    label="Description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    multiline
-                    rows={4}
-                />
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    sx={{ mt: 2, fontWeight: "bold" }}
-                >
-                    Update Entry
-                </Button>
-            </form>
-        </Box>
+        <Container maxWidth="sm">
+            <Box sx={{ mt: 4, mb: 4 }}>
+                <Typography variant="h4" align="center" gutterBottom>
+                    Uredi vnos
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Oddelane ure"
+                        name="hoursWorked"
+                        value={formData.hoursWorked}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        variant="outlined"
+                        type="number"
+                    />
+                    <TextField
+                        label="Datum"
+                        name="date"
+                        value={formData.date}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        variant="outlined"
+                        type="date"
+                        InputLabelProps={{ shrink: true }}
+                    />
+                    <TextField
+                        label="Opombe"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        variant="outlined"
+                        multiline
+                        rows={4}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 2}}
+                    >
+                        Shrani
+                    </Button>
+                </form>
+            </Box>
+        </Container>
     );
 };
 
