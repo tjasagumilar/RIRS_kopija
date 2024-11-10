@@ -15,6 +15,9 @@ const Header = ({ onNavigate }) => {
         <Button color="inherit" onClick={() => onNavigate('mojaEvidenca')}>
           Moja evidenca
         </Button>
+        <Button color="inherit" onClick={() => onNavigate('pregled')}>
+          Pregled
+        </Button>
       </Toolbar>
     </AppBar>
   );

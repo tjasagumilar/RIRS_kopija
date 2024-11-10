@@ -122,6 +122,48 @@ app.put("/api/entries/:id", (req, res) => {
   });
 });
 
+app.get("/api/entries/month", (req, res) => {
+  const { employeeId, month } = req.query;
+  console.log("Fetching total hours for month:", month, "and employee ID:", employeeId);
+
+  // Modify the query to select all employee data and the total worked hours
+  let query = `
+    SELECT 
+      employees.*,  -- Select all columns from the employees table
+      SUM(work_entries.hours_worked) AS total_hours
+    FROM 
+      work_entries
+    LEFT JOIN 
+      employees ON work_entries.employee_id = employees.id
+    WHERE 
+      MONTH(work_entries.date) = ?
+  `;
+  const queryParams = [month];
+
+  // Check if employeeId is provided, and if so, add it to the query
+  if (employeeId) {
+    query += " AND employee_id = ?";
+    queryParams.push(employeeId);
+  }
+
+  query += " GROUP BY work_entries.employee_id";  // Ensure the query groups by employee_id
+
+  db.query(query, queryParams, (err, results) => {
+    if (err) {
+      console.error("Failed to fetch entries:", err);
+      return res.status(500).json({ error: "Failed to fetch entries" });
+    }
+
+    // If results are empty, send a message indicating no data found
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No entries found for the given criteria" });
+    }
+
+    // The result now includes all columns from employees and total worked hours
+    console.log("Results:", results);
+    res.json(results);  // Send the full results with employee data and total hours
+  });
+});
 
 // Start the server
 app.listen(port, () => {
