@@ -165,7 +165,12 @@ app.get("/api/entries/month", (req, res) => {
   });
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+// Start the server// Zagnati strežnik samo v produkciji, v testih pa ne
+if (process.env.NODE_ENV !== 'test') {
+  const server = app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  });
+}
+
+// Export app for testing
+module.exports = app;

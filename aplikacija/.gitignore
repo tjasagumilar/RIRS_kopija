@@ -31,3 +31,5 @@ Thumbs.db
 # Compiled files (JavaScript from TypeScript, CSS from SCSS)
 *.js.map
 *.css.map
+
+coverage/
