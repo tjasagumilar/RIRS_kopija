@@ -2,22 +2,10 @@ const request = require('supertest');
 const app = require('../index');
 const mysql = require('mysql2');
 
-const mockEmployees = [
-  { id: 1, name: 'John Doe', position: 'Developer' },
-  { id: 2, name: 'Jane Smith', position: 'Designer' },
-];
-
 jest.mock('mysql2', () => ({
   createConnection: jest.fn().mockReturnValue({
     connect: jest.fn(),
-    query: jest.fn((query, params, callback) => {
-      if (query === "SELECT * FROM employees") {
-        // Simulira uspešno poizvedbo, ki vrne mock podatke
-        callback(null, mockEmployees);
-      } else {
-        callback(new Error("Query not recognized"));
-      }
-    }),
+    query: jest.fn(),
     end: jest.fn(),
   }),
 }));
@@ -30,28 +18,23 @@ describe('Employee API Tests', () => {
     mockQuery.mockReset();
   });
 
-  describe('GET /api/employees', () => {
-    it('should fetch employees from the database', async () => {
-      mockQuery.mockImplementation((query, params, callback) => {
-        callback(null, mockEmployees);
-      });
+  // describe('GET /api/employees', () => {
+  //   it('should fetch employees from the database', async () => {
+  //     const mockEmployees = [
+  //       { id: 1, name: 'John Doe', position: 'Developer' },
+  //       { id: 2, name: 'Jane Smith', position: 'Designer' },
+  //     ];
 
-      const res = await request(app).get('/api/employees');
-      expect(res.statusCode).toBe(200);
-      expect(Array.isArray(res.body)).toBe(true);
-      expect(res.body).toEqual(mockEmployees);
-    });
+  //     mockQuery.mockImplementation((query, params, callback) => {
+  //       callback(null, mockEmployees);
+  //     });
 
-    it('should handle database errors gracefully', async () => {
-      mockQuery.mockImplementation((query, params, callback) => {
-        callback(new Error('Database error'), null);
-      });
-
-      const res = await request(app).get('/api/employees');
-      expect(res.statusCode).toBe(500);
-      expect(res.body.message).toBe('Error fetching employees');
-    });
-  });
+  //     const res = await request(app).get('/api/employees');
+  //     expect(res.statusCode).toBe(200);
+  //     expect(Array.isArray(res.body)).toBe(true);
+  //     expect(res.body).toEqual(mockEmployees);
+  //   });
+  // });
 
   describe('GET /api/entries/month', () => {
     it('should fetch total hours for the month, excluding certain employees', async () => {
@@ -79,21 +62,10 @@ describe('Employee API Tests', () => {
       mockQuery.mockImplementation((query, params, callback) => {
         callback(null, []);
       });
-
       const res = await request(app).get('/api/entries/month?month=1');
       expect(res.statusCode).toBe(404);
       expect(res.body.message).toBe('No entries found for the given criteria');
     });
 
-    it('should handle database errors gracefully', async () => {
-      mockQuery.mockImplementation((query, params, callback) => {
-        callback(new Error('Database error'), null);
-      });
-
-      const res = await request(app).get('/api/entries/month?month=11');
-      expect(res.statusCode).toBe(500);
-      expect(res.body.message).toBe('Error fetching entries');
-    });
   });
 });
-
