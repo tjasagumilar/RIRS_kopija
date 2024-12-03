@@ -8,7 +8,8 @@
     "build": "vite build",
     "test": "jest",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:ci": "jest --coverage --watchAll=false"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
