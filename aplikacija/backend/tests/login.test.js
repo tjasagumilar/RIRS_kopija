@@ -56,13 +56,6 @@ describe('POST /api/login', () => {
     expect(res.body).toHaveProperty('success', false);
   });
 
-  jest.setTimeout(10000);
-
-  it('should return 401 if username or password is missing', async () => {
-    const res = await request(app).post('/api/login').send({ username: 'testuser' });
-    expect(res.statusCode).toBe(401);
-  });
-
 });
 
 

@@ -18,24 +18,6 @@ describe('Employee API Tests', () => {
     mockQuery.mockReset();
   });
 
-  // describe('GET /api/employees', () => {
-  //   it('should fetch employees from the database', async () => {
-  //     const mockEmployees = [
-  //       { id: 1, name: 'John Doe', position: 'Developer' },
-  //       { id: 2, name: 'Jane Smith', position: 'Designer' },
-  //     ];
-
-  //     mockQuery.mockImplementation((query, params, callback) => {
-  //       callback(null, mockEmployees);
-  //     });
-
-  //     const res = await request(app).get('/api/employees');
-  //     expect(res.statusCode).toBe(200);
-  //     expect(Array.isArray(res.body)).toBe(true);
-  //     expect(res.body).toEqual(mockEmployees);
-  //   });
-  // });
-
   describe('GET /api/entries/month', () => {
     it('should fetch total hours for the month, excluding certain employees', async () => {
       const month = 11;

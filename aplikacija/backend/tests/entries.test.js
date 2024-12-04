@@ -34,12 +34,6 @@ describe('GET /api/entries', () => {
     expect(res.body).toEqual(mockEntries);
   });
 
-  // it('should return 500 if no employeeId is provided', async () => {
-  //   const res = await request(app).get('/api/entries');
-  //   expect(res.statusCode).toBe(500);
-  //   expect(res.body.message).toBe('Employee ID is required');
-  // });
-
   it('should return an empty array if no entries exist for the employee', async () => {
     mockQuery.mockImplementation((query, params, callback) => {
       callback(null, []); 
