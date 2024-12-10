@@ -172,5 +172,37 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
+app.post("/api/events", (req, res) => {
+  const { eventName, startDate, startTime, location, description } = req.body;
+
+  if (!eventName || !startDate || !startTime) {
+    return res.status(400).json({
+      error: "Missing required fields: 'eventName', 'startDate', or 'startTime'",
+    });
+  }
+
+  const query = `
+    INSERT INTO events (eventName, startDate, startTime, location, description)
+    VALUES (?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    query,
+    [eventName, startDate, startTime, location, description],
+    (err, result) => {
+      if (err) {
+        console.error("Failed to insert 'event' entry:", err);
+        return res.status(500).json({ error: "Failed to insert 'event' entry" });
+      }
+
+      console.log("'Event' entry added successfully:", result);
+      res.status(201).json({
+        message: "'Event' entry added successfully",
+        id: result.insertId,
+      });
+    }
+  );
+});
+
 // Export app for testing
 module.exports = app;
