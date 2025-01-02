@@ -10,16 +10,16 @@ describe("SalaryCalculator component", () => {
     expect(screen.getByRole("button", { name: /Izračunaj Plačo/i })).toBeInTheDocument();
   });
 
-//   it("should calculate and display the salary when valid inputs are provided", () => {
-//     render(<SalaryCalculator />);
+  it("should calculate and display the salary when valid inputs are provided", () => {
+    render(<SalaryCalculator />);
 
-//     fireEvent.change(screen.getByLabelText(/Urna postavka/i), { target: { value: "15" } });
-//     fireEvent.change(screen.getByLabelText(/Oddelane ure/i), { target: { value: "40" } });
+    fireEvent.change(screen.getByLabelText(/Urna postavka/i), { target: { value: "15" } });
+    fireEvent.change(screen.getByLabelText(/Oddelane ure/i), { target: { value: "40" } });
 
-//     fireEvent.click(screen.getByRole("button", { name: /Izračunaj Plačo/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Izračunaj Plačo/i }));
 
-//     expect(screen.getByText(/Vaša plača: 600.00 €/i)).toBeInTheDocument();
-//   });
+    expect(screen.getByText(/Vaša plača: 600.00 €/i)).toBeInTheDocument();
+  });
 
 //   it("should not calculate salary if inputs are invalid", () => {
 //     render(<SalaryCalculator />);
