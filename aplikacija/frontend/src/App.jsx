@@ -7,6 +7,7 @@ import LoginForm from "./components/LoginForm";
 import EmployeeHoursTable from "./components/EmployeeHoursTable";
 import Overview from "./components/Overview";
 import AddEventForm from "./components/AddEventForm";
+import SalaryCalculator from "./components/SalaryCalculator";
 
 const App = () => {
   const [currentView, setCurrentView] = useState("login");
@@ -48,6 +49,9 @@ const App = () => {
         )}
         {currentView === "dogodki" && (
           <AddEventForm employeeId={employeeId} />
+        )}
+        {currentView === "salary" && (
+          <SalaryCalculator />
         )}
       </div>
     </Router>

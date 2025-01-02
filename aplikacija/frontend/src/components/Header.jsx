@@ -21,6 +21,9 @@ const Header = ({ onNavigate }) => {
         <Button color="inherit" onClick={() => onNavigate('dogodki')}>
           Dogodki
         </Button>
+        <Button color="inherit" onClick={() => onNavigate('salary')}>
+          Izračun plače
+        </Button>
       </Toolbar>
     </AppBar>
   );
